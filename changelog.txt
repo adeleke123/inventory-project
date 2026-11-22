@@ -1,0 +1,5 @@
+f03daf9 | Adeleke | 2026-11-22 | refactor: split app.py into functions and add docstrings
+552167a | Adeleke | 2026-11-22 | feat: format report as a table with value per item
+f3b41e3 | Adeleke | 2026-11-22 | feat: add report date using datetime (Python 3.12+ compatible)
+24bfa7a | Adeleke | 2026-11-22 | fix: calculate total stock value as quantity x price
+192f2b8 | Adeleke | 2026-11-22 | Initial commit: inventory project with starter code
