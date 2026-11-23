@@ -1,18 +1,23 @@
-from inventory import items
-from utils.helpers import highest_stock_item, lowest_stock_item
+"""Inventory application: SQLite-backed report."""
+import os
+
+from controllers import InventoryController
+from inventory import items as legacy_items
+from models import Item
+from utils import print_report
+
+DB_PATH = os.environ.get("DB_PATH", "inventory.db")
 
 
-def total_stock_value(items):
-    total = 0
-    for item in items:
-        total += item["price"]
-    return total
+def main() -> None:
+    """Migrate the old data, write one new item, and print the report."""
+    controller = InventoryController(DB_PATH)
+    added = controller.migrate(legacy_items)
+    print(f"Migrated {added} new record(s) into SQLite ({DB_PATH})")
+    controller.add_item(Item("Salt", 40, 300))
+    items = controller.get_all()
+    print_report(items, controller.total_stock_value())
 
 
-print("=== Inventory Report ===")
-for item in items:
-    print(item["item_name"], "-", item["quantity"], "units @", item["price"])
-
-print("Total stock value:", total_stock_value(items))
-print("Highest stock:", highest_stock_item(items)["item_name"])
-print("Lowest stock:", lowest_stock_item(items)["item_name"])
+if __name__ == "__main__":
+    main()
